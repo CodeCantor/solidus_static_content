@@ -13,7 +13,6 @@ end
 class Spree::StaticPage
   def self.matches?(request)
     return false if request.path =~ /(^\/+(admin|account|cart|checkout|content|login|pg\/|orders|products|s\/|session|signup|shipments|states|t\/|tax_categories|user)+)/
-    slug = StaticPage.remove_spree_mount_point request.path
-    Spree::Page.visible.where(slug: slug).exists?
+    !Spree::Page.visible.find_by_slug(request.path).nil?
   end
 end
